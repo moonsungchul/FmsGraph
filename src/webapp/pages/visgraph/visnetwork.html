@@ -1,0 +1,70 @@
+<div  ng-controller="VisNetworkCtrl" ng-init="init()" layout="column">
+    <!--
+    <md-toolbar>
+      <h1> Angualr material start </h1>
+    </md-toolbar>
+    -->
+
+    <div class="container" layout="row" flex>
+      <div flex="25" md-is-locked-open="true" class="red md-whiteframe-1dp">
+
+        <md-content>
+          <md-tabs md-dynamic-height md-border-bottom >
+
+            <md-tab label="one">
+              <md-content class="md-padding">
+                <hd class="md-title">Tab One </h1>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="two">
+              <md-content class="md-padding">
+                <hd class="md-title">Tab Two </h1>
+              </md-content>
+            </md-tab>
+
+          </md-tabs>
+        </md-content>
+
+      </div>
+
+        
+      <div flex="75" class="lightgreen md-whiteframe-1dp" >
+        <div ng-show="loadingBarShow" ng-style="loadingBar"> 
+            <div class="outerBorder">
+              <div id="text" ng-style="text">0%</div>
+              <div ng-style="border">
+                  <div ng-style="bar"></div>
+              </div>
+            </div>
+        </div> 
+        <div id="mynetwork" >
+        </div>
+        
+
+      </div>
+
+
+      <!--
+      <div flex="20" class="lightgreen md-whiteframe-1dp" >
+        <md-content>
+          <md-tabs md-dynamic-height md-border-bottom >
+
+            <md-tab label="one" class="md-title">
+              <md-content class="md-padding">
+                <hd class="md-title">Tab One </h1>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="two" class="md-title">
+              <md-content class="md-padding">
+                <hd class="md-title">Tab Two </h1>
+              </md-content>
+            </md-tab>
+
+          </md-tabs>
+        </md-content>
+      </div>
+      -->
+    </div>
+</div>
