@@ -4,9 +4,9 @@ const { ipcRenderer } = require('electron')
 fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bridgeFactory) {
 
     $scope.test_data = "test data"
-    $scope.loadingBarShow = true
+    $scope.loadingBarShow = false
     $scope.loadingBar = {
-            "position":"absolute",
+            position:"absolute",
             top:"0px",
             left:"0px",
             width: "902px",
@@ -76,9 +76,9 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
     
     $scope.init = function() {
         $log.info(">>>>>>>>> test init <<<<<<<<<<<<<")
-        draw()
+        draw(false)
         $log.info("mynetowrk ", $scope.mynetwork)
-        readData() 
+        //readData() 
     }
 
     function readData() {
@@ -97,10 +97,9 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
         $log.info("Receive nodes : ", arg._nodes)
         $scope.nodes = new vis.DataSet(arg._nodes)
         $scope.edges = new vis.DataSet(arg._edges)
-        $scope.loadingBarShow = true
-        draw()
-        //$scope.loadingBarShow = false
-        
+        $log.info("Receive node read ok")
+        $scope.loadingBar.opacity = 1
+        //draw(true)
     });
 
     function destroy() {
@@ -114,7 +113,7 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
         $log.info("test >>>>>>>  on load File2")
     }
 
-    function draw() {
+    function draw(process_sw) {
         destroy()
         /*
         $scope.nodes = new vis.DataSet([
@@ -134,6 +133,7 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
         ]); */
         // create a network
         $scope.container = document.getElementById('mynetwork');
+
         var data = {
             nodes: $scope.nodes,
             edges: $scope.edges
@@ -158,7 +158,6 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
                 keyboard: true
             }, 
             physics: {
-                /*
                 forceAtlas2Based: {
                     gravitationalConstant: -26,
                     centralGravity: 0.005,
@@ -167,7 +166,7 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
                 }, 
                 maxVelocity: 146,
                 solver: 'forceAtlas2Based',
-                timestep: 0.35, */
+                timestep: 0.35, 
                 stabilization: {
                     enabled:true,
                     iterations:2000,
@@ -176,9 +175,13 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             }
 
         }
+        if(process_sw == false) {
+            $scope.loadingBar.opacity = 0
+        } else {
+            $scope.loadingBar.opacity = 1
+        }
 
-        var height = Math.round(window.innerHeight * 0.99) + 'px'
-        $scope.container.style.height = height
+        $log.info("network : ", $scope.network)
         $scope.network = new vis.Network($scope.container, data, options);
 
         $scope.network.on("stabilizationProgress", function(params) {
@@ -186,12 +189,12 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             var minWidth = 20;
             var widthFactor = params.iterations/params.total;
             var width = Math.max(minWidth,maxWidth * widthFactor);
-
             //var vv = document.getElementById('bar')
             //$log.info("bar : ", vv)
 
-            //document.getElementById('bar').style.width = width + 'px';
-            $scope.bar.width = width + 'px';
+            document.getElementById('bar').style.width = width + 'px';
+            //$scope.bar.width = width + 'px';
+            //$scope.bar.width = width + 'px';
             //$scope.text = Math.round(widthFactor*100) + '%'; 
             document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
         }); 
@@ -200,12 +203,14 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             $scope.text = '100%'
             $scope.width = '496px'
             $scope.loadingBar.opacity = 0
-            setTimeout(function() {$scope.loadingBar.display = 'none';}, 500);
+            //setTimeout(function() {$scope.loadingBar.display = 'none';}, 500);
+            $log.info(">>>>>>>>>>>>>>>>>>>>> process end !!!!!!!!")
                 //document.getElementById('text').innerHTML = '100%';
                 //document.getElementById('bar').style.width = '496px';
                 //document.getElementById('loadingBar').style.opacity = 0;
                 // really clean the dom element
-                //setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                setTimeout(function () {
+                    document.getElementById('loadingBar').style.display = 'none';}, 500);
         }); 
         
     } // function...

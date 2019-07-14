@@ -30,17 +30,19 @@
 
         
       <div flex="75" class="lightgreen md-whiteframe-1dp" >
-        <div ng-show="loadingBarShow" ng-style="loadingBar"> 
-            <div class="outerBorder">
-              <div id="text" ng-style="text">0%</div>
-              <div ng-style="border">
-                  <div ng-style="bar"></div>
-              </div>
-            </div>
-        </div> 
         <div id="mynetwork" >
         </div>
         
+        <div id="loadingBar"   ng-style="loadingBar"> 
+            <div class="outerBorder">
+              <div id="text" ng-style="text">0%</div>
+              <div ng-style="border">
+                  <div id="bar" ng-style="bar"></div>
+              </div>
+            </div>
+        </div> 
+        
+              
 
       </div>
 
