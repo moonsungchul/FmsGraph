@@ -1,7 +1,7 @@
 
 const { ipcRenderer } = require('electron')
 
-fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bridgeFactory) {
+fms.controller('VisNetworkCtrl', function($scope, $log, $window, $route, $rootScope, bridgeFactory) {
 
     $scope.test_data = "test data"
     $scope.loadingBarShow = false
@@ -17,7 +17,7 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             "-ms-transition": "all 0.5s ease",
             "-o-transition": "all 0.5s ease",
             "transition": "all 0.5s ease",
-            opacity:1,
+            opacity:0,
     }
 
     $scope.text = {
@@ -98,8 +98,8 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
         $scope.nodes = new vis.DataSet(arg._nodes)
         $scope.edges = new vis.DataSet(arg._edges)
         $log.info("Receive node read ok")
-        $scope.loadingBar.opacity = 1
-        //draw(true)
+        //$scope.loadingBar.opacity = 1
+        draw(true)
     });
 
     function destroy() {
@@ -114,7 +114,7 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
     }
 
     function draw(process_sw) {
-        destroy()
+        //destroy()
         /*
         $scope.nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
@@ -138,13 +138,13 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             nodes: $scope.nodes,
             edges: $scope.edges
         };
-        //var options = {};
+
         var options = {
             nodes: {
                 shape: 'dot',
                 size: 30,
                 font: {
-                    size: 32
+                    size: 16
                 },
                 borderWidth: 2,
                 shadow:true
@@ -175,13 +175,12 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             }
 
         }
+        /*
         if(process_sw == false) {
             $scope.loadingBar.opacity = 0
         } else {
             $scope.loadingBar.opacity = 1
-        }
-
-        $log.info("network : ", $scope.network)
+        } */
         $scope.network = new vis.Network($scope.container, data, options);
 
         $scope.network.on("stabilizationProgress", function(params) {
@@ -205,11 +204,11 @@ fms.controller('VisNetworkCtrl', function($scope, $log, $window, $rootScope, bri
             $scope.loadingBar.opacity = 0
             //setTimeout(function() {$scope.loadingBar.display = 'none';}, 500);
             $log.info(">>>>>>>>>>>>>>>>>>>>> process end !!!!!!!!")
-                //document.getElementById('text').innerHTML = '100%';
-                //document.getElementById('bar').style.width = '496px';
-                //document.getElementById('loadingBar').style.opacity = 0;
-                // really clean the dom element
-                setTimeout(function () {
+            document.getElementById('text').innerHTML = '100%';
+            document.getElementById('bar').style.width = '496px';
+            document.getElementById('loadingBar').style.opacity = 0;
+            //really clean the dom element
+            setTimeout(function () {
                     document.getElementById('loadingBar').style.display = 'none';}, 500);
         }); 
         
